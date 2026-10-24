@@ -527,7 +527,35 @@
       "verified_by": "ELUNOR Lead Auditor"
     },
     {
-      "id": "rep_7a584d5c",
+      "id": "rep_2778cdb5",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "MODERATE",
+      "lat": -37.8164,
+      "lon": 144.9678,
+      "segment_id": "seg_crosswalk_to_heritage_steps",
+      "description": "VisionScan feature match: General obstacle detected along pathway corridor. Manual verification recommended.",
+      "image_url": "blob:http://127.0.0.1:5173/bc10219b-6dd6-46aa-8ddb-58b4ba195a08",
+      "status": "VERIFIED",
+      "reported_at": "2026-10-24T14:04:58.128734+00:00",
+      "verified_at": "2026-10-24T14:05:05.449584+00:00",
+      "verified_by": "ELUNOR Lead Auditor"
+    },
+    {
+      "id": "rep_77c04ced",
+      "category": "MISSING_KERB_RAMP",
+      "severity": "HIGH",
+      "lat": -37.816,
+      "lon": 144.968,
+      "segment_id": "seg_heritage_steps_to_civic",
+      "description": "j",
+      "image_url": null,
+      "status": "REJECTED",
+      "reported_at": "2026-10-24T14:05:16.518342+00:00",
+      "verified_at": null,
+      "verified_by": null
+    },
+    {
+      "id": "rep_e2b2c3b8",
       "category": "POLE_OR_OBSTRUCTION",
       "severity": "HIGH",
       "lat": -37.8175,
@@ -536,12 +564,12 @@
       "description": "Heavy delivery crates completely blocking wheelchair ramp",
       "image_url": null,
       "status": "VERIFIED",
-      "reported_at": "2026-10-24T13:40:03.909871+00:00",
-      "verified_at": "2026-10-24T13:40:03.935839+00:00",
+      "reported_at": "2026-10-24T14:13:57.835826+00:00",
+      "verified_at": "2026-10-24T14:13:57.847622+00:00",
       "verified_by": "CivicAuditor"
     },
     {
-      "id": "rep_b1ff5023",
+      "id": "rep_299c1ca6",
       "category": "POLE_OR_OBSTRUCTION",
       "severity": "HIGH",
       "lat": -37.8175,
@@ -550,10 +578,10 @@
       "description": "Heavy delivery crates completely blocking wheelchair ramp",
       "image_url": null,
       "status": "VERIFIED",
-      "reported_at": "2026-10-24T13:56:18.066543+00:00",
-      "verified_at": "2026-10-24T13:56:18.084142+00:00",
+      "reported_at": "2026-10-24T14:30:40.521675+00:00",
+      "verified_at": "2026-10-24T14:30:40.534753+00:00",
       "verified_by": "CivicAuditor"
     }
   ],
-  "updated_at": "2026-10-24T13:56:18.126091+00:00"
+  "updated_at": "2026-10-24T14:30:40.561580+00:00"
 }
