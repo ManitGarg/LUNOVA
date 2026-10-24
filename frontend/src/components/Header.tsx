@@ -17,16 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   resetting
 }) => {
   return (
-    <header style={{
-      background: 'linear-gradient(180deg, #0a1222 0%, #080d1a 100%)',
-      borderBottom: '1px solid #1e293b',
-      padding: '12px 24px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap',
-      gap: '16px'
-    }}>
+    <header className="app-header">
       {/* Brand & Team */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         <div style={{
@@ -37,12 +28,13 @@ export const Header: React.FC<HeaderProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 15px rgba(6, 182, 212, 0.4)'
+          boxShadow: '0 0 15px rgba(6, 182, 212, 0.4)',
+          flexShrink: 0
         }}>
           <ShieldCheck size={24} color="#ffffff" />
         </div>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '20px', fontWeight: 800, letterSpacing: '1px', color: '#f8fafc' }}>
               LUNOVA
             </span>
@@ -76,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Navigation Tabs */}
-      <nav style={{ display: 'flex', gap: '6px', background: '#0b162c', padding: '4px', borderRadius: '10px', border: '1px solid #1e293b' }}>
+      <nav className="app-header-nav">
         <button
           onClick={() => setActiveTab('map')}
           style={{

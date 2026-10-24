@@ -59,7 +59,7 @@ export const AccessImpactView: React.FC = () => {
       </div>
 
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+      <div className="access-impact-kpis">
         <div className="card" style={{ background: '#091224', textAlign: 'center', padding: '14px' }}>
           <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase' }}>Network Accessibility</div>
           <div style={{ fontSize: '24px', fontWeight: 900, color: '#34d399', margin: '4px 0' }}>

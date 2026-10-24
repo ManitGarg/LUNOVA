@@ -138,7 +138,7 @@ export const RealityPulseView: React.FC<Props> = ({ segments, onReportVerified }
         <form onSubmit={handleCreateReport} className="card" style={{ background: '#091224', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#38bdf8' }}>Submit Accessibility Barrier</h4>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+          <div className="reality-pulse-form-grid">
             <div>
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Category</label>
               <select
@@ -241,6 +241,7 @@ export const RealityPulseView: React.FC<Props> = ({ segments, onReportVerified }
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    flexWrap: 'wrap',
                     gap: '14px'
                   }}
                 >

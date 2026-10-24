@@ -65,6 +65,7 @@ export const JourneyProofPanel: React.FC<Props> = ({ route }) => {
           padding: '12px',
           display: 'flex',
           alignItems: 'center',
+          flexWrap: 'wrap',
           gap: '12px',
           marginBottom: '14px'
         }}

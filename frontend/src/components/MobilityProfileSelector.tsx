@@ -145,7 +145,7 @@ export const MobilityProfileSelector: React.FC<Props> = ({ profile, onChange }) 
         </div>
 
         {/* Checkbox Constraints */}
-        <div style={{ display: 'flex', gap: '16px', marginTop: '6px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginTop: '6px' }}>
           <label
             style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#cbd5e1', cursor: 'pointer' }}
             onClick={() => updateCustom('require_kerb_ramps', !profile.require_kerb_ramps)}

@@ -146,11 +146,11 @@ export const App: React.FC = () => {
         resetting={resetting}
       />
 
-      <main style={{ flex: 1, padding: '16px 24px', maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
+      <main className="app-main-content">
         {activeTab === 'map' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: '20px', alignItems: 'start' }}>
+          <div className="app-map-grid">
             {/* Left Controls & JourneyProof Panel */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxHeight: 'calc(100vh - 100px)', overflowY: 'auto', paddingRight: '4px' }}>
+            <div className="app-sidebar">
               {/* Preset Destinations Quick Bar */}
               <div className="card" style={{ padding: '12px' }}>
                 <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '8px' }}>
@@ -227,7 +227,7 @@ export const App: React.FC = () => {
                     </span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  <div className="route-comparison-grid">
                     {/* Ordinary Route */}
                     <div style={{ background: '#070d18', padding: '8px', borderRadius: '6px', border: '1px solid #1e293b' }}>
                       <div style={{ fontSize: '10px', color: '#ef4444', fontWeight: 700 }}>
@@ -272,7 +272,7 @@ export const App: React.FC = () => {
             </div>
 
             {/* Right Interactive Leaflet Map */}
-            <div style={{ height: 'calc(100vh - 100px)', minHeight: '600px' }}>
+            <div className="app-map-wrapper">
               <AccessMap
                 segments={segments}
                 recommendedRoute={recommendedRoute}

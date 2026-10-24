@@ -256,3 +256,233 @@ body {
     opacity: 0;
   }
 }
+
+/* ==========================================================================
+   Responsive Mobile Layout (Portrait 320px–430px & Tablets)
+   Preserves full desktop layout at >960px
+   ========================================================================== */
+
+/* Main content wrapper */
+.app-main-content {
+  flex: 1;
+  padding: 16px 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+@media (max-width: 640px) {
+  .app-main-content {
+    padding: 10px 8px;
+  }
+}
+
+/* Map tab 2-column grid -> 1-column stack */
+.app-map-grid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .app-map-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+/* Left sidebar panel in Map view */
+.app-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+@media (max-width: 960px) {
+  .app-sidebar {
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding-right: 0 !important;
+    order: 2;
+  }
+}
+
+/* Map container in Map view */
+.app-map-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 100px);
+  min-height: 540px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+}
+@media (max-width: 960px) {
+  .app-map-wrapper {
+    order: 1;
+    height: 50vh !important;
+    min-height: 350px !important;
+  }
+}
+
+/* Header & Navigation */
+.app-header {
+  background: linear-gradient(180deg, #0a1222 0%, #080d1a 100%);
+  border-bottom: 1px solid #1e293b;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .app-header {
+    padding: 8px 12px;
+    gap: 10px;
+  }
+}
+
+.app-header-nav {
+  display: flex;
+  gap: 6px;
+  background: #0b162c;
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+}
+@media (max-width: 768px) {
+  .app-header-nav {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .app-header-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .app-header-nav button {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Map Legend Base Classes */
+.map-legend-container {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.map-legend-toggle {
+  display: none;
+}
+.map-legend-content {
+  background: rgba(15, 29, 54, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Map Overlays Responsive Adjustments */
+@media (max-width: 640px) {
+  .map-notice-banner {
+    left: 48px !important;
+    right: 8px !important;
+    max-width: calc(100% - 56px) !important;
+    font-size: 10px !important;
+    padding: 4px 8px !important;
+  }
+
+  .map-gps-controls {
+    top: auto !important;
+    bottom: 24px !important;
+    left: 8px !important;
+    max-width: 170px !important;
+    padding: 6px !important;
+  }
+
+  .map-legend-toggle {
+    display: inline-flex !important;
+  }
+  .map-legend-content {
+    display: none !important;
+  }
+  .map-legend-content.open {
+    display: flex !important;
+    max-width: 230px !important;
+    font-size: 10px !important;
+    margin-top: 4px !important;
+    padding: 6px 10px !important;
+  }
+}
+
+/* Route Feasibility Comparison */
+.route-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 380px) {
+  .route-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* VisionScan 2-column grid -> 1-column stack */
+.vision-scan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  min-height: 600px;
+}
+@media (max-width: 900px) {
+  .vision-scan-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    min-height: auto;
+  }
+}
+
+/* AccessImpact KPI 4-column grid -> 2x2 or 1 column */
+.access-impact-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+@media (max-width: 768px) {
+  .access-impact-kpis {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+@media (max-width: 360px) {
+  .access-impact-kpis {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* RealityPulse Form 3-column -> 1 column */
+.reality-pulse-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 640px) {
+  .reality-pulse-form-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

@@ -240,7 +240,7 @@ export const VisionScanView: React.FC<Props> = ({ onBarrierCreated }) => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', minHeight: '600px' }}>
+    <div className="vision-scan-grid">
       {/* Left Column: Image Selector, Camera, & Controls */}
       <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

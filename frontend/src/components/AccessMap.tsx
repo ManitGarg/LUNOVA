@@ -44,6 +44,7 @@ export const AccessMap: React.FC<Props> = ({
   const [isTracking, setIsTracking] = useState<boolean>(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [statusType, setStatusType] = useState<'info' | 'success' | 'error'>('info');
+  const [isLegendOpen, setIsLegendOpen] = useState<boolean>(false);
 
   const watchIdRef = useRef<number | null>(null);
 
@@ -510,11 +511,12 @@ export const AccessMap: React.FC<Props> = ({
   }, [origin, destination]);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '540px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #1e293b' }}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%', minHeight: '540px' }} />
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
 
       {/* Top Banner: Real Map & Integrity Notice */}
       <div
+        className="map-notice-banner"
         style={{
           position: 'absolute',
           top: '12px',
@@ -531,7 +533,7 @@ export const AccessMap: React.FC<Props> = ({
           lineHeight: '1.4'
         }}
       >
-        <span style={{ color: '#38bdf8', fontWeight: 700 }}>Map Provider:</span> OpenStreetMap Standard Tiles.  
+        <span style={{ color: '#38bdf8', fontWeight: 700 }}>Map Provider:</span> OpenStreetMap Standard Tiles.{' '}
         <span style={{ color: '#94a3b8', display: 'block', fontSize: '10px' }}>
           *Note: Real map presence does not imply wheelchair accessibility. Overlays represent demonstration audited footpath segments.
         </span>
@@ -539,6 +541,7 @@ export const AccessMap: React.FC<Props> = ({
 
       {/* Live GPS Controls Overlay (Top-Left under notice bar) */}
       <div
+        className="map-gps-controls"
         style={{
           position: 'absolute',
           top: '68px',
@@ -628,50 +631,61 @@ export const AccessMap: React.FC<Props> = ({
       </div>
 
       {/* Floating Legend */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '12px',
-          right: '12px',
-          background: 'rgba(15, 29, 54, 0.94)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid #1e293b',
-          borderRadius: '8px',
-          padding: '8px 12px',
-          zIndex: 1000,
-          fontSize: '11px',
-          color: '#cbd5e1',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px'
-        }}
-      >
-        <div style={{ fontWeight: 700, color: '#f8fafc', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Demonstration Legend
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '16px', height: '4px', background: '#0284c7', borderRadius: '2px' }} />
-          <span>JourneyProof Accessible Path</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '16px', height: '4px', background: '#dc2626', borderRadius: '2px' }} />
-          <span>Ordinary Route (Blocked by Stairs)</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '16px', height: '4px', background: '#0d9488', borderRadius: '2px' }} />
-          <span>Audited Passable Footpath</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '16px', height: '4px', background: '#d97706', borderRadius: '2px' }} />
-          <span>Unknown / Pending Audit</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '13px' }}>⚠️</span>
-          <span>Detected Barrier (Click details)</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderTop: '1px solid #1e293b', paddingTop: '4px', marginTop: '2px' }}>
-          <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#0284c7', border: '1.5px solid #fff', display: 'inline-block' }} />
-          <span>Your Live Position (GPS)</span>
+      <div className="map-legend-container">
+        <button
+          type="button"
+          onClick={() => setIsLegendOpen(!isLegendOpen)}
+          className="map-legend-toggle"
+          style={{
+            background: 'rgba(15, 29, 54, 0.94)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid #1e293b',
+            borderRadius: '6px',
+            padding: '5px 9px',
+            color: '#38bdf8',
+            fontSize: '11px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+            alignItems: 'center',
+            gap: '4px'
+          }}
+          aria-label="Toggle Demonstration Legend"
+        >
+          <span>🗺️ Legend</span>
+          <span style={{ fontSize: '9px' }}>{isLegendOpen ? '▲' : '▼'}</span>
+        </button>
+
+        <div
+          className={`map-legend-content ${isLegendOpen ? 'open' : ''}`}
+        >
+          <div style={{ fontWeight: 700, color: '#f8fafc', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Demonstration Legend
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '16px', height: '4px', background: '#0284c7', borderRadius: '2px' }} />
+            <span>JourneyProof Accessible Path</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '16px', height: '4px', background: '#dc2626', borderRadius: '2px' }} />
+            <span>Ordinary Route (Blocked by Stairs)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '16px', height: '4px', background: '#0d9488', borderRadius: '2px' }} />
+            <span>Audited Passable Footpath</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '16px', height: '4px', background: '#d97706', borderRadius: '2px' }} />
+            <span>Unknown / Pending Audit</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '13px' }}>⚠️</span>
+            <span>Detected Barrier (Click details)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderTop: '1px solid #1e293b', paddingTop: '4px', marginTop: '2px' }}>
+            <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#0284c7', border: '1.5px solid #fff', display: 'inline-block' }} />
+            <span>Your Live Position (GPS)</span>
+          </div>
         </div>
       </div>
     </div>
