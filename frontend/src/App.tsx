@@ -45,7 +45,12 @@ export const App: React.FC = () => {
       await api.getHealth();
       setBackendHealthy(true);
       const segs = await api.getSegments();
-      setSegments(segs);
+      if (Array.isArray(segs)) {
+        setSegments(segs);
+      } else {
+        console.error('Segments response is not an array:', segs);
+        setSegments([]);
+      }
     } catch (err) {
       console.error('Initial load failed:', err);
       setBackendHealthy(false);
@@ -115,7 +120,11 @@ export const App: React.FC = () => {
     try {
       await api.resetDemo();
       const segs = await api.getSegments();
-      setSegments(segs);
+      if (Array.isArray(segs)) {
+        setSegments(segs);
+      } else {
+        setSegments([]);
+      }
       setOrigin(DEFAULT_ORIGIN);
       setDestination(DEFAULT_DESTINATION);
       setProfile(DEFAULT_PROFILE);

@@ -310,6 +310,8 @@ export const AccessMap: React.FC<Props> = ({
     const layer = segmentsLayerRef.current;
     layer.clearLayers();
 
+    if (!Array.isArray(segments)) return;
+
     segments.forEach((seg) => {
       let color = '#0284c7'; // default blue-cyan for audited passable footpath
       let dashArray = undefined;
@@ -334,7 +336,8 @@ export const AccessMap: React.FC<Props> = ({
       }).addTo(layer);
 
       // Informative popup distinguishing real OSM map background from demo network
-      const barrierNames = seg.barriers.map(b => `• <b>${b.category}</b> (${b.severity}): ${b.description}`).join('<br/>');
+      const barrierList = Array.isArray(seg.barriers) ? seg.barriers : [];
+      const barrierNames = barrierList.map(b => `• <b>${b.category}</b> (${b.severity}): ${b.description}`).join('<br/>');
       const barrierHtml = barrierNames ? `<div style="margin-top:6px; color:#f87171; font-size:11px; background:#1e1b2e; padding:6px; border-radius:4px;">${barrierNames}</div>` : '';
 
       polyline.bindPopup(`
@@ -359,7 +362,7 @@ export const AccessMap: React.FC<Props> = ({
       });
 
       // Add barrier icon markers on map
-      seg.barriers.forEach((b) => {
+      barrierList.forEach((b) => {
         const barrierIcon = L.divIcon({
           className: 'custom-barrier-icon',
           html: `<div style="

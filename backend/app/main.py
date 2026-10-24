@@ -38,15 +38,27 @@ app = FastAPI(
 @app.middleware("http")
 async def normalize_api_routing(request: Request, call_next):
     raw_path = request.scope.get("path", "")
+
+    # 1. If Vercel passed path via query parameter from rewrite
+    path_param = request.query_params.get("path")
+    if path_param:
+        clean_param = path_param.strip("/")
+        request.scope["path"] = f"/api/{clean_param}"
+        return await call_next(request)
+
+    # 2. Check for entrypoint artifacts in raw path
     for artifact in ["/api/index.py", "/api/index", "/app/main.py", "/app/main"]:
         if raw_path.startswith(artifact):
             cleaned = raw_path[len(artifact):]
             raw_path = cleaned if cleaned else "/"
             break
+
+    # 3. Check for x-matched-path header if available
     if raw_path in ["", "/"]:
         matched = request.headers.get("x-matched-path")
         if matched and not any(matched.startswith(a) for a in ["/api/index", "/app/main"]):
             raw_path = matched
+
     request.scope["path"] = raw_path
     return await call_next(request)
 
