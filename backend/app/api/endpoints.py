@@ -19,7 +19,7 @@ except ImportError:
     from app.services.cv_service import cv_service
     from app.routing.graph_engine import routing_engine
 
-router = APIRouter(prefix="/api")
+router = APIRouter()
 
 @router.get("/health")
 def get_health():

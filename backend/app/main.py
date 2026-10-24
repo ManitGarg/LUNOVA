@@ -17,7 +17,8 @@ if "backend" not in sys.modules:
     _backend_pkg.__path__ = [_backend_dir]
     sys.modules["backend"] = _backend_pkg
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -29,8 +30,25 @@ except ImportError:
 app = FastAPI(
     title="LUNOVA Accessibility Engine",
     description="AI-powered accessible walking route planner with JourneyProof verification for Smart Cities (SC-02)",
-    version="1.0.0"
+    version="1.0.0",
+    redirect_slashes=False
 )
+
+# Serverless routing path normalization middleware
+@app.middleware("http")
+async def normalize_api_routing(request: Request, call_next):
+    raw_path = request.scope.get("path", "")
+    for artifact in ["/api/index.py", "/api/index", "/app/main.py", "/app/main"]:
+        if raw_path.startswith(artifact):
+            cleaned = raw_path[len(artifact):]
+            raw_path = cleaned if cleaned else "/"
+            break
+    if raw_path in ["", "/"]:
+        matched = request.headers.get("x-matched-path")
+        if matched and not any(matched.startswith(a) for a in ["/api/index", "/app/main"]):
+            raw_path = matched
+    request.scope["path"] = raw_path
+    return await call_next(request)
 
 # CORS setup for Vite frontend development and production
 app.add_middleware(
@@ -51,13 +69,21 @@ try:
 except (OSError, PermissionError) as e:
     print(f"Notice: Uploads static directory mount skipped on read-only serverless: {e}")
 
-# Include API endpoints
+# Primary canonical public route prefix: /api (e.g. /api/health, /api/routes)
+app.include_router(router, prefix="/api")
+
+# Direct fallback route without prefix (in case /api is stripped by serverless or proxy)
 app.include_router(router)
+
+# Safeguard fallback when /api prefix is doubled (e.g. /api/api/*)
+app.include_router(router, prefix="/api/api")
 
 # Expose handler alias for serverless runtime adapters
 handler = app
 
 @app.get("/")
+@app.get("/api")
+@app.get("/api/")
 def root():
     return {
         "project": "LUNOVA",
@@ -67,6 +93,10 @@ def root():
         "docs": "/docs",
         "health": "/api/health"
     }
+
+@app.get("/api/docs", include_in_schema=False)
+def api_docs_redirect():
+    return RedirectResponse(url="/docs")
 
 if __name__ == "__main__":
     import uvicorn
