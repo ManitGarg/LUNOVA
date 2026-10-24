@@ -21,15 +21,19 @@ export const RealityPulseView: React.FC<Props> = ({ segments, onReportVerified }
   const [submitting, setSubmitting] = useState(false);
   const [actionMsg, setActionMsg] = useState<string | null>(null);
 
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
   const fetchReports = async () => {
     setLoading(true);
+    setErrorMsg(null);
     try {
       const data = await api.getReports();
       // sort latest first
       data.sort((a, b) => new Date(b.reported_at).getTime() - new Date(a.reported_at).getTime());
       setReports(data);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to load reports:', err);
+      setErrorMsg(err.message || 'Failed to load reports from backend.');
     } finally {
       setLoading(false);
     }
@@ -119,6 +123,13 @@ export const RealityPulseView: React.FC<Props> = ({ segments, onReportVerified }
       {actionMsg && (
         <div style={{ background: 'rgba(6, 182, 212, 0.12)', border: '1px solid rgba(6, 182, 212, 0.3)', color: '#38bdf8', padding: '10px 14px', borderRadius: '8px', fontSize: '12px' }}>
           {actionMsg}
+        </div>
+      )}
+
+      {errorMsg && (
+        <div style={{ background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', padding: '10px 14px', borderRadius: '8px', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>{errorMsg}</span>
+          <button onClick={fetchReports} className="btn-secondary" style={{ padding: '4px 8px', fontSize: '11px' }}>Retry</button>
         </div>
       )}
 

@@ -6,24 +6,44 @@ import type {
   AccessImpactSummary
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api';
+const resolveApiBase = (): string => {
+  const envUrl = (import.meta.env.VITE_API_BASE as string | undefined)?.trim();
+  if (!envUrl) {
+    return 'http://127.0.0.1:8000/api';
+  }
+  // Strip trailing slashes
+  const clean = envUrl.replace(/\/+$/, '');
+  // Ensure the base ends with /api without duplicating
+  if (clean.endsWith('/api')) {
+    return clean;
+  }
+  return `${clean}/api`;
+};
+
+export const API_BASE = resolveApiBase();
 
 export const api = {
   async getHealth() {
     const res = await fetch(`${API_BASE}/health`);
-    if (!res.ok) throw new Error('Health check failed');
+    if (!res.ok) {
+      throw new Error(`Health check failed (${res.status})`);
+    }
     return res.json();
   },
 
   async getSegments(): Promise<FootpathSegment[]> {
     const res = await fetch(`${API_BASE}/segments`);
-    if (!res.ok) throw new Error('Failed to fetch segments');
+    if (!res.ok) {
+      throw new Error(`Failed to fetch segments (${res.status})`);
+    }
     return res.json();
   },
 
   async getNodes(): Promise<Record<string, any>> {
     const res = await fetch(`${API_BASE}/nodes`);
-    if (!res.ok) throw new Error('Failed to fetch nodes');
+    if (!res.ok) {
+      throw new Error(`Failed to fetch nodes (${res.status})`);
+    }
     return res.json();
   },
 
@@ -37,7 +57,10 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ origin, destination, profile })
     });
-    if (!res.ok) throw new Error('Route calculation failed');
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => null);
+      throw new Error(errBody?.detail || `Route calculation failed (${res.status})`);
+    }
     return res.json();
   },
 
@@ -51,19 +74,26 @@ export const api = {
       method: 'POST',
       body: formData
     });
-    if (!res.ok) throw new Error('Image analysis failed');
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => null);
+      throw new Error(errBody?.detail || `Image analysis failed (${res.status})`);
+    }
     return res.json();
   },
 
   async getSampleFixtures(): Promise<Record<string, any>> {
     const res = await fetch(`${API_BASE}/samples`);
-    if (!res.ok) throw new Error('Failed to fetch sample fixtures');
+    if (!res.ok) {
+      throw new Error(`Failed to fetch sample fixtures (${res.status})`);
+    }
     return res.json();
   },
 
   async getReports(): Promise<RealityPulseReport[]> {
     const res = await fetch(`${API_BASE}/reports`);
-    if (!res.ok) throw new Error('Failed to fetch reports');
+    if (!res.ok) {
+      throw new Error(`Failed to fetch reports (${res.status})`);
+    }
     return res.json();
   },
 
@@ -81,7 +111,10 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Report submission failed');
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => null);
+      throw new Error(errBody?.detail || `Report submission failed (${res.status})`);
+    }
     return res.json();
   },
 
@@ -90,7 +123,10 @@ export const api = {
       `${API_BASE}/reports/${encodeURIComponent(reportId)}/verify?verifier_name=${encodeURIComponent(verifierName)}`,
       { method: 'POST' }
     );
-    if (!res.ok) throw new Error('Report verification failed');
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => null);
+      throw new Error(errBody?.detail || `Report verification failed (${res.status})`);
+    }
     return res.json();
   },
 
@@ -98,13 +134,18 @@ export const api = {
     const res = await fetch(`${API_BASE}/reports/${encodeURIComponent(reportId)}/reject`, {
       method: 'POST'
     });
-    if (!res.ok) throw new Error('Report rejection failed');
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => null);
+      throw new Error(errBody?.detail || `Report rejection failed (${res.status})`);
+    }
     return res.json();
   },
 
   async getAccessImpact(): Promise<AccessImpactSummary> {
     const res = await fetch(`${API_BASE}/impact`);
-    if (!res.ok) throw new Error('Failed to fetch impact dashboard');
+    if (!res.ok) {
+      throw new Error(`Failed to fetch impact dashboard (${res.status})`);
+    }
     return res.json();
   },
 
@@ -112,7 +153,10 @@ export const api = {
     const res = await fetch(`${API_BASE}/reset-demo`, {
       method: 'POST'
     });
-    if (!res.ok) throw new Error('Demo reset failed');
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => null);
+      throw new Error(errBody?.detail || `Demo reset failed (${res.status})`);
+    }
     return res.json();
   }
 };

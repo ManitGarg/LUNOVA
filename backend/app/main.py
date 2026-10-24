@@ -50,10 +50,21 @@ async def normalize_api_routing(request: Request, call_next):
     request.scope["path"] = raw_path
     return await call_next(request)
 
-# CORS setup for Vite frontend development and production
+# CORS configuration: allow deployed Vercel frontend, preview branches, and local development
+CORS_ALLOWED_ORIGINS = [
+    "https://lunova-kappa.vercel.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ALLOWED_ORIGINS,
+    allow_origin_regex=r"^https://lunova-.*\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

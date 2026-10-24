@@ -187,26 +187,15 @@ export const VisionScanView: React.FC<Props> = ({ onBarrierCreated }) => {
 
     try {
       const response = await fetch(`/demo_assets/${s.filename}`);
+      if (!response.ok) {
+        throw new Error(`Demo asset ${s.filename} not found (${response.status})`);
+      }
       const blob = await response.blob();
       const file = new File([blob], s.filename, { type: 'image/jpeg' });
       setSelectedFile(file);
       runInference(file, s.category);
-    } catch {
-      setAnalysisResult({
-        success: true,
-        category: s.category,
-        severity: s.severity,
-        confidence: s.confidence,
-        details: s.details,
-        is_automated: true,
-        detection_source: s.detection_method,
-        bbox: s.bbox,
-        visual_metrics: {
-          edge_density: 34.2,
-          horizontal_striation_count: 22,
-          texture_variance: 52.8
-        }
-      });
+    } catch (err: any) {
+      setErrorMsg(`Failed to load benchmark fixture: ${err.message || 'Asset not found'}`);
     }
   };
 

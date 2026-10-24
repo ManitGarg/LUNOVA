@@ -6,19 +6,39 @@ import { BarChart3, Wrench } from 'lucide-react';
 export const AccessImpactView: React.FC = () => {
   const [summary, setSummary] = useState<AccessImpactSummary | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadData = () => {
     setLoading(true);
+    setError(null);
     api.getAccessImpact()
       .then(setSummary)
-      .catch((err) => console.error('Failed to load access impact:', err))
+      .catch((err: any) => {
+        console.error('Failed to load access impact:', err);
+        setError(err.message || 'Failed to load access impact dashboard');
+      })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
-  if (loading || !summary) {
+  if (loading) {
     return (
       <div className="card" style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
         Loading AccessImpact Civic Dashboard...
+      </div>
+    );
+  }
+
+  if (error || !summary) {
+    return (
+      <div className="card" style={{ textAlign: 'center', padding: '40px', color: '#f87171' }}>
+        <p style={{ marginBottom: '12px' }}>{error || 'Failed to load AccessImpact data. Please check backend connection.'}</p>
+        <button onClick={loadData} className="btn-secondary" style={{ margin: '0 auto' }}>
+          Retry Dashboard Connection
+        </button>
       </div>
     );
   }
