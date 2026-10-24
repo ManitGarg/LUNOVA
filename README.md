@@ -22,7 +22,9 @@ Traditional navigation engines (e.g., Google Maps, Apple Maps) prioritize raw di
    - Explains the exact evidence and reason an alternative detour was chosen (e.g., direct 320m route blocked by 14 stone steps with 18cm risers; rerouted via 635m continuous grade underpass ramp).
    - Generates an auditable segment-by-segment trail displaying surface type, width, gradient, curb ramps, and last inspection timestamp.
 
-2. **VisionScan (AI Barrier Detection):**
+2. **VisionScan (AI Barrier Detection & Live Camera):**
+   - Live browser camera capture via `getUserMedia` (with environment facing-mode, viewfinder, capture, review, retake, and use photo controls).
+   - Local image upload and file drag-and-drop.
    - Automated computer-vision pipeline analyzing street imagery for accessibility obstacles:
      - Stairs and steps (horizontal gradient striation frequencies)
      - Missing / unsuitable kerb ramps (vertical elevation difference)
@@ -30,11 +32,12 @@ Traditional navigation engines (e.g., Google Maps, Apple Maps) prioritize raw di
      - Utility poles and corridor encroachments (clear width violations)
      - Parked vehicles blocking sidewalks
    - Includes 1-click benchmark test cases for rapid evaluation without file downloads.
-   - Provides honest transparency: automated gradient/texture feature extraction clearly labeled alongside manual analyst assist.
+   - Transparent methodology: automated gradient/texture feature extraction clearly labeled alongside manual analyst assist.
 
-3. **AccessMap (Footpath Accessibility Graph):**
-   - Interactive Leaflet map with Dark Matter cartography.
-   - Distinct visualization for verified passable segments (Cyan), known barrier segments (Red), and unknown segments (Amber dashed).
+3. **AccessMap (Footpath Accessibility Graph & Real Map):**
+   - Real-world OpenStreetMap standard raster tiles (`https://tile.openstreetmap.org/{z}/{x}/{y}.png`) with continuous contributor attribution.
+   - Distinct visualization for verified passable segments (Cyan/Blue), known barrier segments (Red), and unknown segments (Amber dashed).
+   - Robust container resizing via `ResizeObserver` and graceful tile error handling.
    - Interactive obstacle pins with detailed severity badges and inspection popups.
 
 4. **MobilityRoute (Constraint-Aware Routing Engine):**
