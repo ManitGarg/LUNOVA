@@ -209,8 +209,13 @@ export const App: React.FC = () => {
               {/* Route Comparison Summary */}
               {comparisonRoute && recommendedRoute && (
                 <div className="card" style={{ padding: '12px', background: '#091224' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '8px' }}>
-                    Route Feasibility Comparison
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+                      Route Feasibility Comparison
+                    </div>
+                    <span style={{ fontSize: '9px', background: 'rgba(6, 182, 212, 0.15)', color: '#38bdf8', padding: '2px 5px', borderRadius: '3px', fontWeight: 700 }}>
+                      DEMO BENCHMARK
+                    </span>
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
@@ -236,9 +241,13 @@ export const App: React.FC = () => {
                         {recommendedRoute.distance_m} m
                       </div>
                       <div style={{ fontSize: '10px', color: '#34d399' }}>
-                        ✓ 100% FEASIBLE: Gentle Ramps
+                        ✓ FEASIBLE: Audited Ramps
                       </div>
                     </div>
+                  </div>
+
+                  <div style={{ fontSize: '9px', color: '#64748b', marginTop: '6px', lineHeight: '1.3' }}>
+                    *Integrity Notice: Distances & geometries are evaluated on the demonstration audit graph. Standard OpenStreetMap background does not imply wheelchair clearance without explicit footway evidence.
                   </div>
                 </div>
               )}

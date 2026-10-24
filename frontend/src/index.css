@@ -210,6 +210,23 @@ body {
   font-family: inherit !important;
 }
 
+/* OpenStreetMap Attribution Bar */
+.leaflet-control-attribution {
+  background: rgba(15, 29, 54, 0.9) !important;
+  color: #94a3b8 !important;
+  font-size: 11px !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  border: 1px solid #1e293b !important;
+}
+.leaflet-control-attribution a {
+  color: #38bdf8 !important;
+  text-decoration: none !important;
+}
+.leaflet-control-attribution a:hover {
+  text-decoration: underline !important;
+}
+
 /* Pulse animation for accessible route */
 @keyframes pulse-cyan {
   0% {

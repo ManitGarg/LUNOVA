@@ -11,7 +11,7 @@ interface Props {
   comparisonRoute?: RouteOption;
 }
 
-export const JourneyProofPanel: React.FC<Props> = ({ route, profile, comparisonRoute }) => {
+export const JourneyProofPanel: React.FC<Props> = ({ route }) => {
   const [expandedSteps, setExpandedSteps] = React.useState(false);
   const proof = route.journey_proof;
 
@@ -51,8 +51,8 @@ export const JourneyProofPanel: React.FC<Props> = ({ route, profile, comparisonR
             JourneyProof™ Verification
           </h3>
         </div>
-        <span style={{ fontSize: '11px', color: '#94a3b8', background: '#070d18', padding: '3px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>
-          Evidence-Aware Engine
+        <span style={{ fontSize: '10px', color: '#38bdf8', background: '#070d18', padding: '3px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>
+          Evidence Audit Engine
         </span>
       </div>
 
@@ -75,23 +75,25 @@ export const JourneyProofPanel: React.FC<Props> = ({ route, profile, comparisonR
             {proof.overall_status.replace(/_/g, ' ')}
           </div>
           <div style={{ fontSize: '11px', color: '#cbd5e1', marginTop: '2px' }}>
-            {isFeasible && 'All segments independently verified accessible for selected profile.'}
+            {isFeasible && 'All route segments are supported by verified demonstration audit records.'}
             {isBlocked && 'Confirmed physical barriers make this route impassable.'}
-            {isNeedsVerification && 'One or more sections lack ground validation within recent audit cycle.'}
+            {isNeedsVerification && 'One or more sections lack recent ground audit validation. Caution required.'}
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: '18px', fontWeight: 900, color: statusColor }}>
-            {proof.feasibility_score}%
+          <div style={{ fontSize: '12px', fontWeight: 800, color: statusColor }}>
+            {isFeasible ? 'EVIDENCE VERIFIED' : (isBlocked ? 'IMPASSABLE' : 'UNVERIFIED')}
           </div>
-          <div style={{ fontSize: '9px', color: '#94a3b8', textTransform: 'uppercase' }}>Confidence</div>
+          <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>
+            {proof.verified_passable_distance_m}m / {proof.total_distance_m}m Audited
+          </div>
         </div>
       </div>
 
       {/* Metrics Row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '14px' }}>
         <div style={{ background: '#091224', padding: '10px', borderRadius: '8px', border: '1px solid #1a2744', textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>Total Distance</div>
+          <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>Route Distance</div>
           <div style={{ fontSize: '15px', fontWeight: 800, color: '#38bdf8' }}>{route.distance_m} m</div>
         </div>
         <div style={{ background: '#091224', padding: '10px', borderRadius: '8px', border: '1px solid #1a2744', textAlign: 'center' }}>
@@ -99,9 +101,14 @@ export const JourneyProofPanel: React.FC<Props> = ({ route, profile, comparisonR
           <div style={{ fontSize: '15px', fontWeight: 800, color: '#f8fafc' }}>{route.estimated_time_min} min</div>
         </div>
         <div style={{ background: '#091224', padding: '10px', borderRadius: '8px', border: '1px solid #1a2744', textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>Verified Path</div>
+          <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>Audited Passable</div>
           <div style={{ fontSize: '15px', fontWeight: 800, color: '#34d399' }}>{proof.verified_passable_distance_m} m</div>
         </div>
+      </div>
+
+      {/* Demonstration Notice */}
+      <div style={{ background: 'rgba(15, 23, 42, 0.8)', padding: '8px 10px', borderRadius: '6px', border: '1px solid #1e293b', marginBottom: '12px', fontSize: '10px', color: '#94a3b8' }}>
+        <span style={{ color: '#38bdf8', fontWeight: 700 }}>[Demonstration Network]</span> Feasibility is computed over our surveyed test graph. Standard roads on the base map without audited footpath segments are never assumed safe.
       </div>
 
       {/* Why Alternative Chosen */}
@@ -205,10 +212,10 @@ export const JourneyProofPanel: React.FC<Props> = ({ route, profile, comparisonR
                   <span style={{ fontWeight: 700, color: '#f8fafc' }}>
                     {idx + 1}. {step.name}
                   </span>
-                  <span style={{ color: '#38bdf8', fontWeight: 600 }}>{step.length_m}m</span>
+                  <span style={{ color: '#38bdf8', fontWeight: 600 }}>{step.length_m} m</span>
                 </div>
                 <div style={{ color: '#94a3b8', margin: '3px 0' }}>
-                  Surface: <span style={{ color: '#e2e8f0' }}>{step.surface}</span> • Width: <span style={{ color: '#e2e8f0' }}>{step.clear_width_m}m</span> • Grade: <span style={{ color: '#e2e8f0' }}>{step.slope_pct}%</span> • Kerb Ramp: <span style={{ color: step.has_kerb_ramp ? '#34d399' : '#f87171' }}>{step.has_kerb_ramp ? 'Yes' : 'No'}</span>
+                  Surface: <span style={{ color: '#e2e8f0' }}>{step.surface}</span> • Width: <span style={{ color: '#e2e8f0' }}>{step.clear_width_m}m</span> • Grade: <span style={{ color: '#e2e8f0' }}>{step.slope_pct}%</span> • Dropped Kerb: <span style={{ color: step.has_kerb_ramp ? '#34d399' : '#f87171' }}>{step.has_kerb_ramp ? 'Yes' : 'No'}</span>
                 </div>
                 <div style={{ color: '#64748b', fontSize: '10px' }}>
                   {step.evidence_note}
