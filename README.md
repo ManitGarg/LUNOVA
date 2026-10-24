@@ -34,9 +34,16 @@ Traditional navigation engines (e.g., Google Maps, Apple Maps) prioritize raw di
    - Includes 1-click benchmark test cases for rapid evaluation without file downloads.
    - Transparent methodology: automated gradient/texture feature extraction clearly labeled alongside manual analyst assist.
 
-3. **AccessMap (Footpath Accessibility Graph & Real Map):**
+3. **AccessMap (Footpath Accessibility Graph, Real Map & Live GPS):**
    - Real-world OpenStreetMap standard raster tiles (`https://tile.openstreetmap.org/{z}/{x}/{y}.png`) with continuous contributor attribution.
    - Distinct visualization for verified passable segments (Cyan/Blue), known barrier segments (Red), and unknown segments (Amber dashed).
+   - **Live GPS Location & Tracking:**
+     - On-demand **"Locate Me"** button via browser `navigator.geolocation.getCurrentPosition()`.
+     - Optional continuous **"Start Live Tracking"** using `navigator.geolocation.watchPosition()`.
+     - Displays pulsing blue location dot and translucent accuracy perimeter circle ($\pm X\text{m}$).
+     - Automatically cleans up location watchers on stop or component unmount.
+     - Strict client-side privacy: coordinates are processed solely in the browser and never transmitted or stored on the backend.
+     - One-click popup action to set your live position as Route Origin (A).
    - Robust container resizing via `ResizeObserver` and graceful tile error handling.
    - Interactive obstacle pins with detailed severity badges and inspection popups.
 
@@ -218,7 +225,14 @@ npm run build
 
 1. **Open the App:** Navigate to `http://127.0.0.1:5173` in any browser.
 2. **Examine the Map:** Observe the dark-navy interface with Cyan passable paths and Red obstacle segments (St. Paul's Heritage Steps).
-3. **Trigger Route Comparison:**
+3. **Test Live GPS Location:**
+   - Click the **"Locate Me"** button on the map control overlay.
+   - Accept the browser's location permission prompt.
+   - Observe the pulsing blue GPS position dot and accuracy circle on the map.
+   - Click the GPS marker popup to inspect coordinates and estimated accuracy ($\pm X\text{m}$), or click **"Set as Route Origin (A)"**.
+   - Click **"Start Live Tracking"** to update coordinates continuously as you move, and verify **"Tracking: Active"** state.
+   - Click **"Stop Tracking"** to verify location tracking cleanly stops.
+4. **Trigger Route Comparison:**
    - Click the preset: **"Central Station → Civic Centre"**.
    - Notice the **Ordinary Shortest Walk** (320m) is marked **BLOCKED** with a red dashed line due to the 14 stone steps.
    - Notice the **LUNOVA Accessible Path** (635m, glowing cyan) selects the continuous ramp way (+315m detour).
@@ -257,7 +271,15 @@ In strict compliance with hackathon guidelines (Section 5.2):
 
 ---
 
-## 11. Stopping and Restarting
+## 11. Geolocation & Privacy Statement
+
+- **Client-Side Geolocation:** All GPS position and tracking coordinates retrieved via `navigator.geolocation` remain strictly in the browser memory for rendering on the Leaflet map. They are never sent, logged, or persisted on the backend server.
+- **Permission & Security Requirements:** Requires an HTTPS context or `localhost` / `127.0.0.1`. The application never requests location permissions automatically; it prompts only after the user explicitly clicks **"Locate Me"** or **"Start Live Tracking"**.
+- **Data Integrity & Safety Notice:** The presence of a live GPS position does not imply that nearby roads or sidewalks are wheelchair-accessible. Accessible route calculation is verified only where grounded footpath audit records exist.
+
+---
+
+## 12. Stopping and Restarting
 
 To stop the servers:
 - In the PowerShell terminals running Uvicorn and Vite, press `CTRL + C`.
