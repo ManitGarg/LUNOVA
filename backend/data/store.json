@@ -1,0 +1,503 @@
+{
+  "nodes": {
+    "node_station": {
+      "id": "node_station",
+      "name": "Central Station (Accessible Hub)",
+      "lat": -37.8178,
+      "lon": 144.9671,
+      "description": "Main transit exit with lift access to concourse"
+    },
+    "node_crosswalk_north": {
+      "id": "node_crosswalk_north",
+      "name": "Swanston Crosswalk Junction",
+      "lat": -37.8168,
+      "lon": 144.9675,
+      "description": "Signalized pedestrian crossing"
+    },
+    "node_heritage_steps": {
+      "id": "node_heritage_steps",
+      "name": "St. Paul's Heritage Plaza Steps",
+      "lat": -37.816,
+      "lon": 144.968,
+      "description": "Historical stone entrance with multi-tier staircases"
+    },
+    "node_civic_square": {
+      "id": "node_civic_square",
+      "name": "Civic Centre & Public Library",
+      "lat": -37.8152,
+      "lon": 144.9685,
+      "description": "Destination: Community services and accessible entrance"
+    },
+    "node_underpass_ramp": {
+      "id": "node_underpass_ramp",
+      "name": "Yarra Way Accessible Concourse",
+      "lat": -37.8175,
+      "lon": 144.9695,
+      "description": "Continuous grade ramp with rest landings and handrails"
+    },
+    "node_arts_promenade": {
+      "id": "node_arts_promenade",
+      "name": "Arts Precinct Promenade",
+      "lat": -37.8162,
+      "lon": 144.9702,
+      "description": "Wide, level pedestrian boulevard with smooth concrete pavers"
+    },
+    "node_east_boulevard": {
+      "id": "node_east_boulevard",
+      "name": "Russell East Crossing",
+      "lat": -37.8148,
+      "lon": 144.9692,
+      "description": "Flush curb intersection with tactile ground surface indicators"
+    },
+    "node_river_promenade_west": {
+      "id": "node_river_promenade_west",
+      "name": "West River Boardwalk",
+      "lat": -37.8185,
+      "lon": 144.966,
+      "description": "Historic boardwalk section with uneven timber planks"
+    },
+    "node_market_lane": {
+      "id": "node_market_lane",
+      "name": "Old Market Arcade",
+      "lat": -37.8158,
+      "lon": 144.9665,
+      "description": "Narrow alleyway connecting western precinct"
+    }
+  },
+  "segments": [
+    {
+      "id": "seg_station_to_crosswalk",
+      "name": "Swanston St East Footpath",
+      "start_node": "node_station",
+      "end_node": "node_crosswalk_north",
+      "coordinates": [
+        [
+          -37.8178,
+          144.9671
+        ],
+        [
+          -37.8173,
+          144.9673
+        ],
+        [
+          -37.8168,
+          144.9675
+        ]
+      ],
+      "length_m": 120.0,
+      "surface": "ASPHALT",
+      "clear_width_m": 2.2,
+      "slope_pct": 2.1,
+      "has_kerb_ramp": true,
+      "status": "VERIFIED_PASSABLE",
+      "barriers": [],
+      "evidence_source": "VisionScan Street-Level Video + City OpenData",
+      "last_inspected": "2026-10-15T09:30:00Z",
+      "verification_confidence": 0.98
+    },
+    {
+      "id": "seg_crosswalk_to_heritage_steps",
+      "name": "St. Paul's Heritage Tiered Stairway",
+      "start_node": "node_crosswalk_north",
+      "end_node": "node_heritage_steps",
+      "coordinates": [
+        [
+          -37.8168,
+          144.9675
+        ],
+        [
+          -37.8164,
+          144.9678
+        ],
+        [
+          -37.816,
+          144.968
+        ]
+      ],
+      "length_m": 105.0,
+      "surface": "COBBLESTONE",
+      "clear_width_m": 1.4,
+      "slope_pct": 14.5,
+      "has_kerb_ramp": false,
+      "status": "KNOWN_BARRIER",
+      "barriers": [
+        {
+          "id": "bar_heritage_stairs_01",
+          "category": "STAIRS_OR_STEPS",
+          "severity": "CRITICAL",
+          "description": "14 stone steps with 18cm risers, no ramp bypass available",
+          "lat": -37.8162,
+          "lon": 144.9679,
+          "segment_id": "seg_crosswalk_to_heritage_steps",
+          "status": "CONFIRMED",
+          "detected_by": "VisionScan Automated AI",
+          "confidence": 0.96,
+          "image_url": "/demo_assets/stairs_heritage.jpg",
+          "created_at": "2026-10-10T14:15:00Z",
+          "verified_at": "2026-10-11T10:00:00Z"
+        },
+        {
+          "id": "bar_missing_ramp_01",
+          "category": "MISSING_KERB_RAMP",
+          "severity": "HIGH",
+          "description": "15cm vertical curb drop without chamfered ramp",
+          "lat": -37.8167,
+          "lon": 144.9676,
+          "segment_id": "seg_crosswalk_to_heritage_steps",
+          "status": "CONFIRMED",
+          "detected_by": "VisionScan Automated AI",
+          "confidence": 0.91,
+          "image_url": "/demo_assets/missing_curb.jpg",
+          "created_at": "2026-10-10T14:16:00Z",
+          "verified_at": "2026-10-11T10:05:00Z"
+        }
+      ],
+      "evidence_source": "VisionScan Street-Level Mesh Analysis",
+      "last_inspected": "2026-10-11T10:05:00Z",
+      "verification_confidence": 0.96
+    },
+    {
+      "id": "seg_heritage_steps_to_civic",
+      "name": "Cathedral Lane Walkway",
+      "start_node": "node_heritage_steps",
+      "end_node": "node_civic_square",
+      "coordinates": [
+        [
+          -37.816,
+          144.968
+        ],
+        [
+          -37.8156,
+          144.9682
+        ],
+        [
+          -37.8152,
+          144.9685
+        ]
+      ],
+      "length_m": 95.0,
+      "surface": "PAVERS",
+      "clear_width_m": 1.8,
+      "slope_pct": 3.0,
+      "has_kerb_ramp": true,
+      "status": "VERIFIED_PASSABLE",
+      "barriers": [],
+      "evidence_source": "Pedestrian Audit 2026",
+      "last_inspected": "2026-10-01T11:00:00Z",
+      "verification_confidence": 0.94
+    },
+    {
+      "id": "seg_station_to_underpass_ramp",
+      "name": "Flinders Accessible Underpass & Ramp Way",
+      "start_node": "node_station",
+      "end_node": "node_underpass_ramp",
+      "coordinates": [
+        [
+          -37.8178,
+          144.9671
+        ],
+        [
+          -37.818,
+          144.9682
+        ],
+        [
+          -37.8175,
+          144.9695
+        ]
+      ],
+      "length_m": 220.0,
+      "surface": "SMOOTH_CONCRETE",
+      "clear_width_m": 2.5,
+      "slope_pct": 3.8,
+      "has_kerb_ramp": true,
+      "status": "VERIFIED_PASSABLE",
+      "barriers": [],
+      "evidence_source": "Infrastructure Survey + LUNOVA LiDAR verification",
+      "last_inspected": "2026-10-18T16:20:00Z",
+      "verification_confidence": 0.99
+    },
+    {
+      "id": "seg_underpass_to_arts_promenade",
+      "name": "Arts Concourse Promenade",
+      "start_node": "node_underpass_ramp",
+      "end_node": "node_arts_promenade",
+      "coordinates": [
+        [
+          -37.8175,
+          144.9695
+        ],
+        [
+          -37.8169,
+          144.9698
+        ],
+        [
+          -37.8162,
+          144.9702
+        ]
+      ],
+      "length_m": 160.0,
+      "surface": "SMOOTH_CONCRETE",
+      "clear_width_m": 3.0,
+      "slope_pct": 1.5,
+      "has_kerb_ramp": true,
+      "status": "VERIFIED_PASSABLE",
+      "barriers": [],
+      "evidence_source": "City Surveyor Accessibility GeoPackage",
+      "last_inspected": "2026-10-20T12:00:00Z",
+      "verification_confidence": 0.97
+    },
+    {
+      "id": "seg_arts_promenade_to_east_boulevard",
+      "name": "Russell Promenade North Connector",
+      "start_node": "node_arts_promenade",
+      "end_node": "node_east_boulevard",
+      "coordinates": [
+        [
+          -37.8162,
+          144.9702
+        ],
+        [
+          -37.8155,
+          144.9697
+        ],
+        [
+          -37.8148,
+          144.9692
+        ]
+      ],
+      "length_m": 175.0,
+      "surface": "ASPHALT",
+      "clear_width_m": 2.1,
+      "slope_pct": 2.4,
+      "has_kerb_ramp": true,
+      "status": "VERIFIED_PASSABLE",
+      "barriers": [],
+      "evidence_source": "VisionScan Street-Level Video",
+      "last_inspected": "2026-10-21T08:45:00Z",
+      "verification_confidence": 0.95
+    },
+    {
+      "id": "seg_east_boulevard_to_civic",
+      "name": "Civic North Concourse Approach",
+      "start_node": "node_east_boulevard",
+      "end_node": "node_civic_square",
+      "coordinates": [
+        [
+          -37.8148,
+          144.9692
+        ],
+        [
+          -37.815,
+          144.9689
+        ],
+        [
+          -37.8152,
+          144.9685
+        ]
+      ],
+      "length_m": 80.0,
+      "surface": "SMOOTH_CONCRETE",
+      "clear_width_m": 2.8,
+      "slope_pct": 1.2,
+      "has_kerb_ramp": true,
+      "status": "VERIFIED_PASSABLE",
+      "barriers": [],
+      "evidence_source": "Building Permit As-Built Verification",
+      "last_inspected": "2026-10-22T10:15:00Z",
+      "verification_confidence": 0.99
+    },
+    {
+      "id": "seg_station_to_river_west",
+      "name": "West River Boardwalk Corridor",
+      "start_node": "node_station",
+      "end_node": "node_river_promenade_west",
+      "coordinates": [
+        [
+          -37.8178,
+          144.9671
+        ],
+        [
+          -37.8182,
+          144.9665
+        ],
+        [
+          -37.8185,
+          144.966
+        ]
+      ],
+      "length_m": 130.0,
+      "surface": "DAMAGED_CRACKED",
+      "clear_width_m": 1.2,
+      "slope_pct": 4.5,
+      "has_kerb_ramp": true,
+      "status": "UNKNOWN",
+      "barriers": [],
+      "evidence_source": "Historic Imagery (>18 months old, pending re-audit)",
+      "last_inspected": "2025-04-12T10:00:00Z",
+      "verification_confidence": 0.4
+    },
+    {
+      "id": "seg_river_west_to_market_lane",
+      "name": "Lower River Access Path",
+      "start_node": "node_river_promenade_west",
+      "end_node": "node_market_lane",
+      "coordinates": [
+        [
+          -37.8185,
+          144.966
+        ],
+        [
+          -37.8172,
+          144.9662
+        ],
+        [
+          -37.8158,
+          144.9665
+        ]
+      ],
+      "length_m": 310.0,
+      "surface": "COBBLESTONE",
+      "clear_width_m": 0.85,
+      "slope_pct": 5.2,
+      "has_kerb_ramp": false,
+      "status": "UNKNOWN",
+      "barriers": [
+        {
+          "id": "bar_narrow_arcade_01",
+          "category": "NARROW_PASSAGE",
+          "severity": "MODERATE",
+          "description": "Sidewalk narrowed to 85cm by decorative planters",
+          "lat": -37.817,
+          "lon": 144.9663,
+          "segment_id": "seg_river_west_to_market_lane",
+          "status": "CONFIRMED",
+          "detected_by": "Community Report",
+          "confidence": 0.75,
+          "image_url": "/demo_assets/narrow_path.jpg",
+          "created_at": "2026-09-15T11:00:00Z",
+          "verified_at": "2026-09-18T14:00:00Z"
+        }
+      ],
+      "evidence_source": "Unverified Public Map Submission",
+      "last_inspected": "2026-01-10T14:00:00Z",
+      "verification_confidence": 0.35
+    },
+    {
+      "id": "seg_market_lane_to_civic",
+      "name": "Market Lane West Connector",
+      "start_node": "node_market_lane",
+      "end_node": "node_civic_square",
+      "coordinates": [
+        [
+          -37.8158,
+          144.9665
+        ],
+        [
+          -37.8155,
+          144.9675
+        ],
+        [
+          -37.8152,
+          144.9685
+        ]
+      ],
+      "length_m": 190.0,
+      "surface": "ASPHALT",
+      "clear_width_m": 1.6,
+      "slope_pct": 2.5,
+      "has_kerb_ramp": true,
+      "status": "VERIFIED_PASSABLE",
+      "barriers": [],
+      "evidence_source": "Municipal GIS Footpath Asset Register",
+      "last_inspected": "2026-08-14T09:00:00Z",
+      "verification_confidence": 0.88
+    }
+  ],
+  "reports": [
+    {
+      "id": "rep_sample_01",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "HIGH",
+      "lat": -37.8171,
+      "lon": 144.9696,
+      "segment_id": "seg_underpass_to_arts_promenade",
+      "description": "Temporary construction scaffolding reducing path to 65cm",
+      "image_url": null,
+      "status": "PENDING_VERIFICATION",
+      "reported_at": "2026-10-23T14:20:00Z",
+      "verified_at": null,
+      "verified_by": null
+    },
+    {
+      "id": "rep_sample_02",
+      "category": "BROKEN_UNEVEN_SURFACE",
+      "severity": "MODERATE",
+      "lat": -37.8183,
+      "lon": 144.9663,
+      "segment_id": "seg_station_to_river_west",
+      "description": "Sunken pavers causing 4cm trip ledge",
+      "image_url": null,
+      "status": "PENDING_VERIFICATION",
+      "reported_at": "2026-10-24T08:10:00Z",
+      "verified_at": null,
+      "verified_by": null
+    },
+    {
+      "id": "rep_5b35df39",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "HIGH",
+      "lat": -37.8175,
+      "lon": 144.9695,
+      "segment_id": "seg_station_to_underpass_ramp",
+      "description": "Heavy delivery crates completely blocking wheelchair ramp",
+      "image_url": null,
+      "status": "VERIFIED",
+      "reported_at": "2026-10-24T12:59:03.308737",
+      "verified_at": "2026-10-24T12:59:03.329270",
+      "verified_by": "CivicAuditor"
+    },
+    {
+      "id": "rep_b048a38b",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "HIGH",
+      "lat": -37.8175,
+      "lon": 144.9695,
+      "segment_id": "seg_station_to_underpass_ramp",
+      "description": "Heavy delivery crates completely blocking wheelchair ramp",
+      "image_url": null,
+      "status": "VERIFIED",
+      "reported_at": "2026-10-24T13:00:14.432986",
+      "verified_at": "2026-10-24T13:00:14.444543",
+      "verified_by": "CivicAuditor"
+    },
+    {
+      "id": "rep_c4233430",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "HIGH",
+      "lat": -37.8175,
+      "lon": 144.9695,
+      "segment_id": "seg_station_to_underpass_ramp",
+      "description": "Heavy delivery crates completely blocking wheelchair ramp",
+      "image_url": null,
+      "status": "VERIFIED",
+      "reported_at": "2026-10-24T13:01:38.804523+00:00",
+      "verified_at": "2026-10-24T13:01:38.817387+00:00",
+      "verified_by": "CivicAuditor"
+    },
+    {
+      "id": "rep_7696d9e0",
+      "category": "CONSTRUCTION_WORK",
+      "severity": "HIGH",
+      "lat": -37.8175,
+      "lon": 144.9695,
+      "segment_id": "seg_station_to_underpass_ramp",
+      "description": "Temporary walkway trench",
+      "image_url": null,
+      "status": "VERIFIED",
+      "reported_at": "2026-10-24T13:22:12.923454+00:00",
+      "verified_at": "2026-10-24T13:22:14.026367+00:00",
+      "verified_by": "AntigravityAuditor"
+    }
+  ],
+  "updated_at": "2026-10-24T13:22:16.895434+00:00"
+}

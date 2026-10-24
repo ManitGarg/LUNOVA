@@ -1,0 +1,49 @@
+{
+  "nodes": {},
+  "segments": [],
+  "reports": [
+    {
+      "id": "rep_sample_01",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "HIGH",
+      "lat": -37.8171,
+      "lon": 144.9696,
+      "segment_id": "seg_underpass_to_arts_promenade",
+      "description": "Temporary construction scaffolding reducing path to 65cm",
+      "image_url": null,
+      "status": "PENDING_VERIFICATION",
+      "reported_at": "2026-10-23T14:20:00Z",
+      "verified_at": null,
+      "verified_by": null
+    },
+    {
+      "id": "rep_sample_02",
+      "category": "BROKEN_UNEVEN_SURFACE",
+      "severity": "MODERATE",
+      "lat": -37.8183,
+      "lon": 144.9663,
+      "segment_id": "seg_station_to_river_west",
+      "description": "Sunken pavers causing 4cm trip ledge",
+      "image_url": null,
+      "status": "PENDING_VERIFICATION",
+      "reported_at": "2026-10-24T08:10:00Z",
+      "verified_at": null,
+      "verified_by": null
+    },
+    {
+      "id": "rep_c24f5dfc",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "HIGH",
+      "lat": -37.8175,
+      "lon": 144.9695,
+      "segment_id": "seg_station_to_underpass_ramp",
+      "description": "Heavy delivery crates completely blocking wheelchair ramp",
+      "image_url": null,
+      "status": "PENDING_VERIFICATION",
+      "reported_at": "2026-10-24T12:58:02.322124",
+      "verified_at": null,
+      "verified_by": null
+    }
+  ],
+  "updated_at": "2026-10-24T12:58:02.381800"
+}
