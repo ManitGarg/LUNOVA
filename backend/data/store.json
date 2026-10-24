@@ -581,7 +581,21 @@
       "reported_at": "2026-10-24T14:30:40.521675+00:00",
       "verified_at": "2026-10-24T14:30:40.534753+00:00",
       "verified_by": "CivicAuditor"
+    },
+    {
+      "id": "rep_211ee803",
+      "category": "POLE_OR_OBSTRUCTION",
+      "severity": "HIGH",
+      "lat": -37.8175,
+      "lon": 144.9695,
+      "segment_id": "seg_station_to_underpass_ramp",
+      "description": "Heavy delivery crates completely blocking wheelchair ramp",
+      "image_url": null,
+      "status": "VERIFIED",
+      "reported_at": "2026-10-24T18:32:56.747329+00:00",
+      "verified_at": "2026-10-24T18:32:56.765397+00:00",
+      "verified_by": "CivicAuditor"
     }
   ],
-  "updated_at": "2026-10-24T14:30:40.561580+00:00"
+  "updated_at": "2026-10-24T18:32:56.808586+00:00"
 }

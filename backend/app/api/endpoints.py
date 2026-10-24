@@ -1,13 +1,23 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Query
 from typing import List, Optional, Dict, Any
-from backend.app.models.schemas import (
-    FootpathSegment, RouteRequest, RouteResponse,
-    RealityPulseReport, RealityPulseReportCreate,
-    AccessImpactSummary
-)
-from backend.app.services.data_service import data_service
-from backend.app.services.cv_service import cv_service
-from backend.app.routing.graph_engine import routing_engine
+try:
+    from backend.app.models.schemas import (
+        FootpathSegment, RouteRequest, RouteResponse,
+        RealityPulseReport, RealityPulseReportCreate,
+        AccessImpactSummary
+    )
+    from backend.app.services.data_service import data_service
+    from backend.app.services.cv_service import cv_service
+    from backend.app.routing.graph_engine import routing_engine
+except ImportError:
+    from app.models.schemas import (
+        FootpathSegment, RouteRequest, RouteResponse,
+        RealityPulseReport, RealityPulseReportCreate,
+        AccessImpactSummary
+    )
+    from app.services.data_service import data_service
+    from app.services.cv_service import cv_service
+    from app.routing.graph_engine import routing_engine
 
 router = APIRouter(prefix="/api")
 

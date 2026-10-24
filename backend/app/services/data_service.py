@@ -2,23 +2,68 @@ import os
 import json
 import uuid
 import math
+import tempfile
 from typing import List, Dict, Optional, Tuple, Any
 from datetime import datetime, timezone
-from backend.app.models.schemas import (
-    FootpathSegment, Barrier, RealityPulseReport, RealityPulseReportCreate,
-    SegmentStatus, BarrierSeverity, BarrierStatus, BarrierCategory,
-    AccessImpactSummary, AccessImpactItem
-)
 
-# Root directory is 4 levels up from this file (backend/app/services/data_service.py)
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-INITIAL_DATA_FILE = os.path.join(ROOT_DIR, "data", "demo_network.json")
-BACKEND_DATA_DIR = os.path.join(ROOT_DIR, "backend", "data")
+try:
+    from backend.app.models.schemas import (
+        FootpathSegment, Barrier, RealityPulseReport, RealityPulseReportCreate,
+        SegmentStatus, BarrierSeverity, BarrierStatus, BarrierCategory,
+        AccessImpactSummary, AccessImpactItem
+    )
+except ImportError:
+    from app.models.schemas import (
+        FootpathSegment, Barrier, RealityPulseReport, RealityPulseReportCreate,
+        SegmentStatus, BarrierSeverity, BarrierStatus, BarrierCategory,
+        AccessImpactSummary, AccessImpactItem
+    )
+
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_backend_dir = os.path.abspath(os.path.join(_current_dir, "..", ".."))
+_project_root = os.path.abspath(os.path.join(_backend_dir, ".."))
+
+def _resolve_data_dir() -> str:
+    candidate = os.path.join(_backend_dir, "data")
+    try:
+        os.makedirs(candidate, exist_ok=True)
+        test_file = os.path.join(candidate, ".write_test")
+        with open(test_file, "w") as f:
+            f.write("ok")
+        os.remove(test_file)
+        return candidate
+    except (OSError, PermissionError):
+        pass
+    
+    tmp_data = os.path.join(tempfile.gettempdir(), "lunova_data")
+    try:
+        os.makedirs(tmp_data, exist_ok=True)
+    except (OSError, PermissionError):
+        pass
+    return tmp_data
+
+def _find_demo_network_file() -> str:
+    candidates = [
+        os.path.join(_backend_dir, "data", "demo_network.json"),
+        os.path.join(_project_root, "data", "demo_network.json"),
+        os.path.join(os.getcwd(), "data", "demo_network.json"),
+        os.path.join(os.getcwd(), "backend", "data", "demo_network.json"),
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return candidates[0]
+
+BACKEND_DATA_DIR = _resolve_data_dir()
+INITIAL_DATA_FILE = _find_demo_network_file()
 STORE_FILE = os.path.join(BACKEND_DATA_DIR, "store.json")
 
 class DataService:
     def __init__(self):
-        os.makedirs(BACKEND_DATA_DIR, exist_ok=True)
+        try:
+            os.makedirs(BACKEND_DATA_DIR, exist_ok=True)
+        except (OSError, PermissionError):
+            pass
         self.nodes: Dict[str, Dict[str, Any]] = {}
         self.segments: Dict[str, FootpathSegment] = {}
         self.reports: Dict[str, RealityPulseReport] = {}
@@ -88,13 +133,20 @@ class DataService:
             "reports": [r.model_dump() for r in self.reports.values()],
             "updated_at": datetime.now(timezone.utc).isoformat()
         }
-        with open(STORE_FILE, "w", encoding="utf-8") as f:
-            json.dump(payload, f, indent=2)
+        try:
+            with open(STORE_FILE, "w", encoding="utf-8") as f:
+                json.dump(payload, f, indent=2)
+        except (OSError, PermissionError) as e:
+            # Ephemeral serverless execution retains state in memory
+            pass
 
     def reset_demo_data(self):
         """Resets the store back to initial clean demo network."""
-        if os.path.exists(STORE_FILE):
-            os.remove(STORE_FILE)
+        try:
+            if os.path.exists(STORE_FILE):
+                os.remove(STORE_FILE)
+        except (OSError, PermissionError):
+            pass
         self.load_data()
 
     def get_all_segments(self) -> List[FootpathSegment]:

@@ -1,15 +1,43 @@
 import os
+import io
 import uuid
 import math
+import tempfile
 from typing import Dict, Any, List, Optional
 from PIL import Image, ImageStat, ImageFilter
-from backend.app.models.schemas import (
-    BarrierCategory, BarrierSeverity, BarrierStatus
-)
 
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-UPLOADS_DIR = os.path.join(ROOT_DIR, "backend", "uploads")
-os.makedirs(UPLOADS_DIR, exist_ok=True)
+try:
+    from backend.app.models.schemas import (
+        BarrierCategory, BarrierSeverity, BarrierStatus
+    )
+except ImportError:
+    from app.models.schemas import (
+        BarrierCategory, BarrierSeverity, BarrierStatus
+    )
+
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_backend_dir = os.path.abspath(os.path.join(_current_dir, "..", ".."))
+
+def _resolve_uploads_dir() -> str:
+    candidate = os.path.join(_backend_dir, "uploads")
+    try:
+        os.makedirs(candidate, exist_ok=True)
+        test_file = os.path.join(candidate, ".write_test")
+        with open(test_file, "w") as f:
+            f.write("ok")
+        os.remove(test_file)
+        return candidate
+    except (OSError, PermissionError):
+        pass
+    
+    tmp_uploads = os.path.join(tempfile.gettempdir(), "lunova_uploads")
+    try:
+        os.makedirs(tmp_uploads, exist_ok=True)
+    except (OSError, PermissionError):
+        pass
+    return tmp_uploads
+
+UPLOADS_DIR = _resolve_uploads_dir()
 
 class VisionScanService:
     def __init__(self):
@@ -73,18 +101,22 @@ class VisionScanService:
         unique_name = f"scan_{uuid.uuid4().hex[:8]}{ext}"
         saved_path = os.path.join(UPLOADS_DIR, unique_name)
 
-        with open(saved_path, "wb") as f:
-            f.write(file_bytes)
-
-        # Open image with Pillow for real visual feature extraction
+        # Open image with Pillow directly from bytes in memory
         try:
-            image = Image.open(saved_path).convert("RGB")
+            image = Image.open(io.BytesIO(file_bytes)).convert("RGB")
             width, height = image.size
         except Exception as e:
             return {
                 "success": False,
                 "error": f"Invalid image format: {str(e)}"
             }
+
+        # Attempt to save file to disk for static serving if storage is writable
+        try:
+            with open(saved_path, "wb") as f:
+                f.write(file_bytes)
+        except (OSError, PermissionError):
+            pass
 
         # 1. Image feature extraction
         # Grayscale conversion

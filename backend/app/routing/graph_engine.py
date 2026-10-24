@@ -1,12 +1,20 @@
 import math
 import networkx as nx
 from typing import List, Optional, Tuple, Dict, Any
-from backend.app.models.schemas import (
-    FootpathSegment, MobilityProfile, RouteOption, RouteResponse,
-    JourneyProof, JourneyProofStatus, JourneyProofStep, SegmentStatus,
-    BarrierSeverity, BarrierStatus, BarrierCategory
-)
-from backend.app.services.data_service import data_service
+try:
+    from backend.app.models.schemas import (
+        FootpathSegment, MobilityProfile, RouteOption, RouteResponse,
+        JourneyProof, JourneyProofStatus, JourneyProofStep, SegmentStatus,
+        BarrierSeverity, BarrierStatus, BarrierCategory
+    )
+    from backend.app.services.data_service import data_service
+except ImportError:
+    from app.models.schemas import (
+        FootpathSegment, MobilityProfile, RouteOption, RouteResponse,
+        JourneyProof, JourneyProofStatus, JourneyProofStep, SegmentStatus,
+        BarrierSeverity, BarrierStatus, BarrierCategory
+    )
+    from app.services.data_service import data_service
 
 class RoutingEngine:
     def __init__(self):
